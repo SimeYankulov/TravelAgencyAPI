@@ -7,11 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgencyAPI", "TravelAg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgencyModels", "TravelAgencyModels\TravelAgencyModels.csproj", "{0F4BFD14-59F2-48AF-A4DF-7B199939DC0E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requironments", "Requironments", "{5B5A80A1-1650-4FDB-8F45-5B5DEB9C353F}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\Desktop\SE\4к 1сем\WebServerProgramming\Travel agency - OpenAPI definition.html = ..\..\..\Desktop\SE\4к 1сем\WebServerProgramming\Travel agency - OpenAPI definition.html
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
