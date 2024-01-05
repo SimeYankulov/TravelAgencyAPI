@@ -3,7 +3,7 @@ using TravelAgencyModels.DTOs;
 
 namespace TravelAgencyAPI.Extensions
 {
-    public static class DtoConversions
+    public static class LocationDtoConversions
     {
         public static IEnumerable<ResponseLocationDTO> ConvertToDto(this IEnumerable<Location> locations)
         {

@@ -7,16 +7,13 @@ namespace TravelAgencyAPI.Controllers
 {
     [ApiController]
     [Route("locations")]
-
     public class LocationController : ControllerBase
     {
         private readonly ILocationRepository locationRepository;
-
         public LocationController(ILocationRepository locationRepository)
         {
             this.locationRepository = locationRepository;
         }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ResponseLocationDTO>>> GetItems()
         {
@@ -42,7 +39,6 @@ namespace TravelAgencyAPI.Controllers
                     "Error retriving data from the database");
             }
         }
-
         [HttpGet("{locationId}")]
         public async Task<ActionResult<ResponseLocationDTO>> GetItem(long locationId)
         {
@@ -68,7 +64,6 @@ namespace TravelAgencyAPI.Controllers
                     "Error retriving data from the database");
             }
         }
-
         [HttpPost]
         public async Task<ActionResult<ResponseLocationDTO>> PostItem([FromBody] CreateLocationDTO locationDto)
         {
@@ -102,7 +97,6 @@ namespace TravelAgencyAPI.Controllers
                    "Error writing data in the database");
             }
         }
-
         [HttpDelete("{locationId}")]
         public async Task<ActionResult<bool>> DeleteItem(long locationId)
         {
@@ -126,7 +120,6 @@ namespace TravelAgencyAPI.Controllers
                    "Error writing data in the database");
             }
         }
-
         [HttpPut]
         public async Task<ActionResult<ResponseLocationDTO>> PutItem([FromBody] UpdateLocationDTO locationDTO)
         {

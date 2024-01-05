@@ -9,8 +9,8 @@ namespace TravelAgencyAPI.Data
         {
 
         }
-
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Holiday> Holidays { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,16 @@ namespace TravelAgencyAPI.Data
                 City = "city",
                 Street = "street",
                 ImageUrl = "imageUrl"
+            });
+
+            modelBuilder.Entity<Holiday>().HasData(new Holiday
+            {
+                Id = 1,
+                FreeSlots = 2,
+                Price = 5.5,
+                Title = "Title",
+                StartDate = "2000-1-1",
+                LocationId= 1
             });
         }
     }
