@@ -47,12 +47,33 @@ namespace TravelAgencyAPI.Repositories
             return holiday;
         }
 
-        public async Task<IEnumerable<Holiday>> GetItems()
+        public async Task<IEnumerable<Holiday>> GetItems(int? duration, string? startDate)
         {
-            var holidays = await this.travelAgencyDbContext.Holidays
-                                    .Include(l => l.Location).ToArrayAsync();
+            if (duration != null)
+            {
+                var holidays = await this.travelAgencyDbContext.Holidays
+                                   .Include(h => h.Location)
+                                   .Where(h => h.Duration == duration)
+                                   .ToListAsync();    
+              
+                return holidays;
+            }
+            if(startDate != null)
+            {
+                var holidays = await this.travelAgencyDbContext.Holidays
+                               .Include(h => h.Location)
+                               .Where(h => h.StartDate == startDate)
+                               .ToListAsync();
 
-            return holidays;
+                return holidays;
+            }
+            else
+            {
+                var holidays = await this.travelAgencyDbContext.Holidays
+                                  .Include(h => h.Location).ToArrayAsync();
+
+                return holidays;
+            }
         }
 
         public async Task<Holiday> PutItem(UpdateHolidayDTO holiday)

@@ -11,7 +11,7 @@ namespace TravelAgencyAPI.Data
         }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
-
+        public DbSet<Reservation> Reservations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.OData.Edm;
+using TravelAgencyAPI.Entities;
 using TravelAgencyAPI.Extensions;
 using TravelAgencyAPI.Repositories.Contracts;
 using TravelAgencyModels.DTOs;
@@ -16,27 +18,31 @@ namespace TravelAgencyAPI.Controllers
             this.holidayRepository = holidayRepository;
         }
 
-        [HttpGet("example")]
-        public IActionResult MyEndpoint(
-            [FromQuery] string param1 = " ",
-            //[FromQuery] DateOnly param2,
-            [FromQuery] int param3 = 0)
-        {
-            // Your logic here using param1, param2, and param3
-            if (param1 != null) { return Ok(new { Param1 = param1 }); }
-            else if (param3 != 0) { return Ok(new { Param3 = param3 }); }
-            else
-                // For example, return a JSON response
-                return Ok(new { Param1 = param1, Param3 = param3 });
-        }
+
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseHolidayDTO>>> GetItems()
+        public async Task<ActionResult<IEnumerable<ResponseHolidayDTO>>> GetItems(
+            [FromQuery] CreateLocationDTO? location = null,
+            [FromQuery] DateTime? startDate= null,
+            [FromQuery] int? duration = null)
         {
             try
             {
-                var holidays = await this.holidayRepository.GetItems();
-
+                IEnumerable<Holiday> holidays;
+                if(duration != null)
+                {
+                    return Ok(startDate.ToString);
+                    // holidays = await this.holidayRepository.GetItems(duration,null);
+                }
+                if(startDate != null)
+                {
+                    holidays = await this.holidayRepository.GetItems(null, startDate.Value.ToShortDateString());
+                }
+                else
+                {
+                     holidays = await this.holidayRepository.GetItems(null,null);
+                }
+                
                 if (holidays == null)
                 {
                     return BadRequest();
