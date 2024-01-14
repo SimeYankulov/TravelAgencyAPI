@@ -7,7 +7,7 @@
         public string? city { get; set; }
         public string? street { get; set; }
         public string? imageUrl { get; set; }
-        public long id { get; set; }
+        public long? id { get; set; }
 
     }
 }

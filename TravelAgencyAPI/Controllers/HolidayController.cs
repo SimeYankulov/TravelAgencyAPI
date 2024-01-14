@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OData.Edm;
 using TravelAgencyAPI.Entities;
 using TravelAgencyAPI.Extensions;
 using TravelAgencyAPI.Repositories.Contracts;
@@ -18,31 +17,39 @@ namespace TravelAgencyAPI.Controllers
             this.holidayRepository = holidayRepository;
         }
 
-
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ResponseHolidayDTO>>> GetItems(
-            [FromQuery] CreateLocationDTO? location = null,
-            [FromQuery] DateTime? startDate= null,
-            [FromQuery] int? duration = null)
+              [FromQuery] Location? locationObj = null,
+             [FromQuery] DateTime? startDate = null,
+             [FromQuery] int? duration = null,
+             [FromQuery] string? location = null
+            )
         {
             try
             {
                 IEnumerable<Holiday> holidays;
-                if(duration != null)
+
+                if (locationObj.Id != null)
                 {
-                    return Ok(startDate.ToString);
-                    // holidays = await this.holidayRepository.GetItems(duration,null);
+                    holidays = await this.holidayRepository.GetItems(locationObj);
                 }
-                if(startDate != null)
+                else if (startDate != null)
                 {
-                    holidays = await this.holidayRepository.GetItems(null, startDate.Value.ToShortDateString());
+                    holidays = await this.holidayRepository.GetItems(startDate);
+                }
+                else if(duration > 0)
+                {
+                   holidays = await this.holidayRepository.GetItems(duration);
+                }
+                else if(location != null)
+                {
+                    holidays = await this.holidayRepository.GetItems(location);
                 }
                 else
                 {
-                     holidays = await this.holidayRepository.GetItems(null,null);
+                   holidays = await this.holidayRepository.GetItems();
                 }
-                
+               
                 if (holidays == null)
                 {
                     return BadRequest();
@@ -59,6 +66,7 @@ namespace TravelAgencyAPI.Controllers
                                     "Error retriving data from the database");
             }
         }
+
         [HttpGet("{holidayId}")]
         public async Task<ActionResult<ResponseHolidayDTO>> GetItem(long holidayId)
         {
@@ -84,6 +92,7 @@ namespace TravelAgencyAPI.Controllers
                     "Error retriving data from the database");
             }
         }
+
         [HttpDelete("{holidayId}")]
         public async Task<ActionResult<bool>> DeleteItem(long holidayId)
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TravelAgencyAPI.Entities;
 using TravelAgencyAPI.Extensions;
 using TravelAgencyAPI.Repositories.Contracts;
 using TravelAgencyModels.DTOs;
@@ -16,12 +17,20 @@ namespace TravelAgencyAPI.Controllers
             this.reservationRepository = reservationRepository;
         }
        
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseReservationDTO>>> GetItems()
-        {
+       [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseReservationDTO>>> GetItems([FromQuery] String? phoneNumber = null)
+         {
             try
             {
-                var reservations = await this.reservationRepository.GetItems();
+                IEnumerable<Reservation> reservations;
+                if(phoneNumber == null)
+                {
+                    reservations = await this.reservationRepository.GetItems();
+                }
+                else
+                {
+                    reservations = await this.reservationRepository.GetItems(phoneNumber);
+                }
 
                 if (reservations == null)
                 {

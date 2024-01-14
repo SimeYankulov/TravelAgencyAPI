@@ -24,7 +24,6 @@ namespace TravelAgencyAPI.Repositories
             return result.Entity;
 
         }
-
         public async Task<Holiday> DeleteItem(long id)
         {
 
@@ -37,8 +36,7 @@ namespace TravelAgencyAPI.Repositories
             }
             return item;
         }
-
-        public async Task<Holiday> GetItem(long id)
+        public async Task<Holiday> GetItem(long? id)
         {
             var holiday = await travelAgencyDbContext.Holidays.
                                                         Include(h => h.Location)
@@ -46,34 +44,55 @@ namespace TravelAgencyAPI.Repositories
 
             return holiday;
         }
-
-        public async Task<IEnumerable<Holiday>> GetItems(int? duration, string? startDate)
+        public async Task<IEnumerable<Holiday>> GetItems()
         {
-            if (duration != null)
-            {
+            var holidays = await this.travelAgencyDbContext.Holidays
+                  .Include(h => h.Location).ToArrayAsync();
+
+            return holidays;
+        }
+        public async Task<IEnumerable<Holiday>> GetItems(int? duration)
+        {
+
                 var holidays = await this.travelAgencyDbContext.Holidays
                                    .Include(h => h.Location)
                                    .Where(h => h.Duration == duration)
-                                   .ToListAsync();    
+                                   .ToArrayAsync();    
               
                 return holidays;
-            }
-            if(startDate != null)
-            {
+
+        }
+        public async Task<IEnumerable<Holiday>> GetItems(DateTime? date)
+        {
+            var justDate = date.Value.ToShortDateString();
+            var holidays = await this.travelAgencyDbContext.Holidays
+                           .Include(h => h.Location)
+                           .Where(h => h.StartDate == justDate)
+                           .ToArrayAsync();
+
+            return holidays;
+        }
+        public async Task<IEnumerable<Holiday>> GetItems(String? location)
+        {
+            var holidays = await this.travelAgencyDbContext.Holidays
+                           .Include(h => h.Location)
+                           .Where(h => 
+                           h.Location.Country == location || h.Location.City == location)
+                          
+                           .ToArrayAsync();
+
+            return holidays;
+        }
+        public async Task<IEnumerable<Holiday>> GetItems(Location? location)
+        {
+            
                 var holidays = await this.travelAgencyDbContext.Holidays
-                               .Include(h => h.Location)
-                               .Where(h => h.StartDate == startDate)
-                               .ToListAsync();
+                                           .Include(h => h.Location)
+                                           .Where(h => h.Location == location)
+                                           .ToArrayAsync();
 
                 return holidays;
-            }
-            else
-            {
-                var holidays = await this.travelAgencyDbContext.Holidays
-                                  .Include(h => h.Location).ToArrayAsync();
-
-                return holidays;
-            }
+            
         }
 
         public async Task<Holiday> PutItem(UpdateHolidayDTO holiday)

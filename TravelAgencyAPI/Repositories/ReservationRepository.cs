@@ -58,9 +58,21 @@ namespace TravelAgencyAPI.Repositories
             return reservations;
         }
 
+        public async Task<IEnumerable<Reservation>> GetItems(string phoneNumber)
+        {
+            var reservations = await this.travelAgencyDbContext.Reservations
+                .Where(r => r.phoneNumber == phoneNumber)
+                 .Include(r => r.Holiday)
+                 .ThenInclude(h => h.Location)
+                 .ToListAsync();
+
+            return reservations;
+        }
+
         public async Task<Reservation> PutItem(UpdateReservationDTO reservation)
         {
             var resultId = travelAgencyDbContext.Reservations.Update(reservation.ConvertToEntity()).Entity.Id;
+
             await this.travelAgencyDbContext.SaveChangesAsync();
 
             var result = await GetItem(resultId);

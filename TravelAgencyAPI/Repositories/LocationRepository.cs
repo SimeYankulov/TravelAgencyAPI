@@ -27,7 +27,7 @@ namespace TravelAgencyAPI.Repositories
             return item;
         }
 
-        public async Task<Location> GetItem(long id)
+        public async Task<Location> GetItem(long? id)
         {
            var location = await travelAgencyDbContext.Locations.FindAsync(id);
 

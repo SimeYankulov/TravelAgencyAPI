@@ -53,7 +53,7 @@ namespace TravelAgencyAPI.Extensions
                 Id = holiday.id,
                 Duration = holiday.duration,
                 FreeSlots = holiday.freeSlots,
-                Price = double.Parse(holiday.price),
+                Price = holiday.price,
                 Title = holiday.title,
                 StartDate = holiday.startDate.ToString(),
                 LocationId = holiday.location
